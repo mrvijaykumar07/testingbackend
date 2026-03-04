@@ -110,16 +110,9 @@ router.get(
       const token = jwt.sign({ id: user._id }, config.jwtSecret, {
         expiresIn: "30d",
       });
-      //--------------for localhost---------testing -------------------------
-      // const isLocalhost = config.FRONTEND_ORIGIN.includes("localhost");
-      // res.cookie("jwtToken", token, {
-      //   httpOnly: true,
-      //   maxAge: 30 * 24 * 60 * 60 * 1000,
-      //   sameSite: isLocalhost ? "Lax" : "None",
-      //   secure: !isLocalhost,
-      // });
 
-      //----------------for production -------------------------
+
+      //----------------for development -------------------------
       // const isProduction = process.env.NODE_ENV === "production";
       // res.cookie("jwtToken", token, {
       //   httpOnly: true,
@@ -177,20 +170,35 @@ router.get("/photo", authenticate, async (req, res) => {
     res.status(500).json({ message: "Error loading profile image" });
   }
 });
+// ------------------For development-------------------------
+// router.get("/logout", (req, res) => {
+//   const isProduction = process.env.NODE_ENV === "production";
+
+//   res.clearCookie("jwtToken", {
+//     httpOnly: true,
+//     secure: isProduction,
+//     sameSite: isProduction ? "None" : "Lax",
+//     path: "/",
+//   });
+
+//   return res.status(200).json({
+//     success: true,
+//     message: "Logged out successfully",
+//   });
+// });
+
 
 router.get("/logout", (req, res) => {
-  const isLocalhost = config.FRONTEND_ORIGIN.includes("localhost");
-
   res.clearCookie("jwtToken", {
     httpOnly: true,
-    sameSite: isLocalhost ? "Lax" : "None",
-    secure: !isLocalhost,
+    secure: true,
+    sameSite: "None",
     path: "/",
   });
 
   return res.status(200).json({
     success: true,
-    message: "Logged out successfully (cookie cleared on server)",
+    message: "Logged out successfully",
   });
 });
 
