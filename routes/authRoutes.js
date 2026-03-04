@@ -188,7 +188,7 @@ router.get("/photo", authenticate, async (req, res) => {
 // });
 
 
-router.get("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
   res.clearCookie("jwtToken", {
     httpOnly: true,
     secure: true,
