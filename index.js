@@ -23,6 +23,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   config.FRONTEND_ORIGIN,
+  "https://testingfrontend-tau.vercel.app",
   "http://127.0.0.1:5173",
   "http://localhost:5173",
 ];
